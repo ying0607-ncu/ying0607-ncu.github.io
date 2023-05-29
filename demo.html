@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>樂透遊戲</title>
+        <link rel="stylesheet" href="mystyle.css">
+    </head>
+    <body>
+        <h1>樂透遊戲</h1>
+        <p>請輸入1~10的數字</p>
+        <div class="wrap" id="lotttery">
+            <p>你的號碼</p>
+            <div class="num" id="num1">
+                <label>第一個號碼</label>
+                <input id="num1" type="number">
+            </div>
+            <div class="num" id="num2">
+                <label>第二個號碼</label>
+                <input id="num2" type="number">
+            </div>
+            <div class="num" id="num3">
+                <label>第三個號碼</label>
+                <input id="num3" type="number">
+            </div>
+        </div>
+        <div class="buttonStyle" id="buttonId">
+            <button type="button" class="button" id="startButton" onclick="Start()">開獎</button>
+            <button type="button" class="button" id="restartButton" onclick="Initialize()">重新開始</button>
+        </div>
+        <p id="test"></p>
+        <script>
+            /*第1小題*/
+            var lottery = [];
+            var random_num;
+            var check = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; //檢查user輸入
+
+            //建立隨機樂透碼
+            for(let i = 0; i < 3; i++){
+                random_num = Math.floor(Math.random() * 10 + 1);
+                if(lottery.indexOf(random_num) == -1){
+                    lottery.push(random_num);
+                }
+            }
+
+            function Start(){
+                //取得user輸入
+                var flag = 0;
+                let userN1 = parseInt(document.getElementById("num1").value);
+                let userN2 = parseInt(document.getElementById("num2").value);
+                let userN3 = parseInt(document.getElementById("num3").value);
+
+                //檢查user輸入是否在範圍內
+                if(check.indexOf(userN1) === -1 || check.indexOf(userN2) === -1 || check.indexOf(userN3) === -1){        
+                    if(confirm('請輸入範圍內的數字\n再玩一次？')){
+                        Initialize();
+                    }
+                }
+                //檢查user輸入是否有重複
+                else if(userN1 == userN2 || userN2 == userN3 || userN1 == userN3){
+                    if(confirm('請輸入不重複的數字\n再玩一次？')){
+                        Initialize();
+                    }
+                }
+                else{
+                    for(let i = 1; i < lottery.length; i++){
+                        if(lottery[i] == userN1){
+                            flag++;
+                        }
+            
+                        if(lottery[i] == userN2){
+                            flag++;
+                        }
+
+                        if(lottery[i] == userN3){
+                            flag++;
+                        }       
+                    }
+                    
+                    /*第2小題*/
+                    if(flag == 0){
+                        alert('沒中獎');
+                    }
+                    else if(flag == 1){
+                        alert('參獎\n獎金1000');
+                    }
+                    else if(flag == 2){
+                        alert('貳獎\n獎金2000');
+                    }
+                    else if(flag == 3){
+                        alert('頭獎\n 獎金10000');
+                    }
+                }
+            }
+
+            function Initialize(){
+                //清空舊資料
+                lottery = [];
+                random_num, userN1, userN2, userN3 = null;
+
+                //建立隨機樂透碼
+                for(let i = 0; i < 3; i++){
+                    random_num = Math.floor(Math.random() * 10 + 1);
+                    if(lottery.indexOf(random_num) == -1){
+                        lottery.push(random_num);
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
